@@ -136,7 +136,7 @@ class HBNBCommand(cmd.Cmd):
 
                 if type(arg_splited) is str:
                     arg_splited = arg_splited.replace('_', ' ').replace('"', '\\"')
-    
+
                 p_dict[arg_s[0]] = arg_splited  # Use the modified value
         except SyntaxError:
              print("** class name missing **")
