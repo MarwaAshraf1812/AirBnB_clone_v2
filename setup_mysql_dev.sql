@@ -7,7 +7,7 @@
 -- Create or ensure the existence of the 'hbnb_dev_db' database
 CREATE DATABASE IF NOT EXISTS hbnb_dev_db;
 
--- Set the password policy to LOW for simplicity (may be changed based on security requirements)
+-- Set the password policy to LOW for simplicity
 SET GLOBAL validate_password.policy = LOW;
 
 -- Create or ensure the existence of the 'hbnb_dev' user with the specified password
