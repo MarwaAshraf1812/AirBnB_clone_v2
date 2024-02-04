@@ -61,6 +61,7 @@ class FileStorage:
             pass
 
     def delete(self, obj=None):
+        """Delete the object from objects"""
         if obj is not None:
             """Creates a unique key (my_obj) based on the object's class name and ID"""
             my_obj = obj.to_dict()['__class__'] + '.' + obj.id
