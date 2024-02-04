@@ -1,6 +1,14 @@
 #!/usr/bin/python3
 """This module defines a class to manage file storage for hbnb clone"""
 import json
+from models.base_model import BaseModel
+from models.user import User
+from models.place import Place
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.review import Review
+
 
 
 class FileStorage:
@@ -35,24 +43,27 @@ class FileStorage:
 
     def reload(self):
         """Loads storage dictionary from file"""
-        from models.base_model import BaseModel
-        from models.user import User
-        from models.place import Place
-        from models.state import State
-        from models.city import City
-        from models.amenity import Amenity
-        from models.review import Review
-
         classes = {
                     'BaseModel': BaseModel, 'User': User, 'Place': Place,
                     'State': State, 'City': City, 'Amenity': Amenity,
                     'Review': Review
                   }
         try:
-            temp = {}
-            with open(FileStorage.__file_path, 'r') as f:
-                temp = json.load(f)
-                for key, val in temp.items():
-                        self.all()[key] = classes[val['__class__']](**val)
+            with open(FileStorage.__file_path, 'r') as file:
+                file_content = file.read()
+                if file_content:
+                    data = json.loads(file_content)
+                    for key, value in data.items():
+                        self.all()[key] = classes[value['__class__']](**value)
         except FileNotFoundError:
             pass
+        except json.decoder.JSONDecodeError:
+            pass
+
+    def delete(self, obj=None):
+        if obj is not None:
+            """Creates a unique key (my_obj) based on the object's class name and ID"""
+            my_obj = obj.to_dict()['__class__'] + '.' + obj.id
+            if my_obj in FileStorage.__objects:
+                del FileStorage.__objects[my_obj]
+                self.save()
