@@ -3,6 +3,8 @@
 from models.base_model import BaseModel, Base
 from sqlalchemy.orm import relationship
 from sqlalchemy import Column, Integer, String, ForeignKey, Float, Table
+from models.review import Review
+import os
 
 
 class Place(BaseModel, Base):
@@ -19,3 +21,16 @@ class Place(BaseModel, Base):
     latitude = Column(Float)
     longitude = Column(Float)
     amenity_ids = []
+    reviews = relationship('Review', backref='place', cascade='all, delete-orphan')
+
+
+    # For FileStorage
+    if os.environ.get('HBNB_TYPE_STORAGE') != "db":
+        @property
+        def cities(self):
+            """Getter Place's Reviews"""
+            from models import storage
+            # Get all Review instances from the storage
+            review_instances = storage.all(Review)
+            # Filter reviews based on the place_id
+            return [review for review in review_instances.values() if review.place_id == self.id]

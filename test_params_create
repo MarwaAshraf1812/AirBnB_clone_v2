@@ -4,3 +4,8 @@ all State
 
 create Place city_id="0001" user_id="0001" name="My_little_house" number_rooms=4 number_bathrooms=2 max_guest=10 price_by_night=300 latitude=37.773972 longitude=-122.431297
 all Place
+
+echo 'create City state_id="7a6c3724-5cba-4e4b-a324-1a098c74a32b" name="San_Francisco"' | HBNB_MYSQL_USER=hbnb_dev HBNB_MYSQL_PWD=hbnb_dev_pwd HBNB_MYSQL_HOST=localhost HBNB_MYSQL_DB=hbnb_dev_db HBNB_TYPE_STORAGE=db python3 ./console.py
+
+
+echo 'create Review place_id="bf95a3e9-76e6-4f6a-a89a-94c5bc6e98f5" user_id="8725da63-4a77-4cf1-aa7e-86d02329ceaa" text="Amazing_place,_huge_kitchen"' | HBNB_MYSQL_USER=hbnb_dev HBNB_MYSQL_PWD=hbnb_dev_pwd HBNB_MYSQL_HOST=localhost HBNB_MYSQL_DB=hbnb_dev_db HBNB_TYPE_STORAGE=db python3 ./console.py 
