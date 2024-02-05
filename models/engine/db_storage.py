@@ -7,6 +7,7 @@ from models.base_model import BaseModel, Base
 from sqlalchemy.orm import scoped_session, sessionmaker
 from models.state import State
 from models.city import City
+from models.user import User
 
 
 class DBStorage:
@@ -33,7 +34,7 @@ class DBStorage:
         """Returns a dictionary of models currently in DB storage"""
         dic = {}
         if cls is None:
-            classes = [State, City]
+            classes = [State, City, User]
             for model in classes:
                 for obj in self.__session.query(model).all():
                     obj_key = "{}.{}".format(type(obj).__name__, obj.id)
