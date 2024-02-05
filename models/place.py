@@ -6,6 +6,13 @@ from sqlalchemy import Column, Integer, String, ForeignKey, Float, Table
 from models.review import Review
 import os
 
+place_amenity = Table(
+'place_amenity', Base.metadata,
+    Column('place_id', String(60), ForeignKey('places.id'),
+           primary_key=True, nullable=False),
+    Column('amenity_id', String(60), ForeignKey('amenities.id'),
+           primary_key=True, nullable=False),
+)
 
 class Place(BaseModel, Base):
     """ A place to stay """
@@ -22,15 +29,33 @@ class Place(BaseModel, Base):
     longitude = Column(Float)
     amenity_ids = []
     reviews = relationship('Review', backref='place', cascade='all, delete-orphan')
-
+    amenities = relationship("Amenity", secondary="place_amenities",
+                             viewonly=False,
+                             back_populates="place_amenities")
 
     # For FileStorage
     if os.environ.get('HBNB_TYPE_STORAGE') != "db":
         @property
-        def cities(self):
+        def reviews(self):
             """Getter Place's Reviews"""
             from models import storage
             # Get all Review instances from the storage
             review_instances = storage.all(Review)
             # Filter reviews based on the place_id
             return [review for review in review_instances.values() if review.place_id == self.id]
+
+
+        @property
+        def amenities(self):
+            """Getter for Place's Amenities"""
+            from models import storage
+            from models.amenity import Amenity
+            amenity_instances = storage.all(Amenity)
+            return [amenity for amenity in amenity_instances.values() if amenity.id in self.amenity_ids]
+
+        @amenities.setter
+        def amenities(self, obj):
+            """Setter for Place's Amenities"""
+            from models.amenity import Amenity
+            if obj and isinstance(obj, Amenity):
+                self.amenity_ids.append(obj.id)
