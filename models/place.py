@@ -5,14 +5,19 @@ from sqlalchemy.orm import relationship
 from sqlalchemy import Column, Integer, String, ForeignKey, Float, Table
 from models.review import Review
 import os
+from os import environ
 
-place_amenity = Table(
-'place_amenity', Base.metadata,
-    Column('place_id', String(60), ForeignKey('places.id'),
-           primary_key=True, nullable=False),
-    Column('amenity_id', String(60), ForeignKey('amenities.id'),
-           primary_key=True, nullable=False),
-)
+place_amenity = Table('place_amenity', Base.metadata,
+                      Column('place_id',
+                             String(60),
+                             ForeignKey('places.id'),
+                             primary_key=True,
+                             nullable=False),
+                      Column('amenity_id',
+                             String(60),
+                             ForeignKey('amenities.id'),
+                             primary_key=True,
+                             nullable=False))
 
 class Place(BaseModel, Base):
     """ A place to stay """
@@ -28,12 +33,13 @@ class Place(BaseModel, Base):
     latitude = Column(Float)
     longitude = Column(Float)
     amenity_ids = []
-    reviews = relationship('Review', backref='place', cascade='all, delete-orphan')
-    amenities = relationship("Amenity", secondary="place_amenities",
-                             viewonly=False,
-                             back_populates="place_amenities")
-
-    # For FileStorage
+    if environ.get('HBNB_TYPE_STORAGE') == "db":
+        reviews = relationship("Review",
+                               backref="place",
+                               cascade="all, delete, delete-orphan")
+        amenities = relationship("Amenity",
+                                 secondary=place_amenity,
+                                 viewonly=False)
     if os.environ.get('HBNB_TYPE_STORAGE') != "db":
         @property
         def reviews(self):
