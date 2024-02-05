@@ -49,7 +49,13 @@ class DBStorage:
 
     def new(self, obj):
         """add the object to the current database session"""
-        self.__session.add(obj)
+        from sqlalchemy.orm import make_transient
+        if not obj._sa_instance_state.session_id:
+            self.__session.add(obj)
+        else:
+            # Expire the object to detach it from the current session
+            make_transient(obj)
+            self.__session.add(obj)
 
     def save(self):
         """commit the current database session"""
