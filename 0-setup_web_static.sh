@@ -4,7 +4,7 @@
 # Install Nginx if not already installed
 sudo apt-get update
 sudo apt-get -y install nginx
-
+sudo ufw allow 'Nginx HTTP'
 # Create necessary directories
 sudo mkdir -p  /data/
 sudo mkdir -p /data/web_static/
