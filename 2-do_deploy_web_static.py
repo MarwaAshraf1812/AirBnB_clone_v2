@@ -24,7 +24,7 @@ def do_deploy(archive_path):
             run ("sudo rm -r {}/{}/web_static".format(r_release, archive_no_ext))
             run('sudo rm /tmp/{}'.format(f_name))
             run('sudo rm -f /data/web_static/current')
-            run('sudo ln -s {}/{}/data/web_static/current'.format(r_release, archive_no_ext))
+            run('sudo ln -s {}/{} /data/web_static/current'.format(r_release, archive_no_ext))
             print('New version deployed!')
             return True
         except:
