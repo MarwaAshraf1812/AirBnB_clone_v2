@@ -15,7 +15,7 @@ def do_deploy(archive_path):
     if exists(archive_path):
         f_name = archive_path.split("/")[-1]
         archive_no_ext = f_name.split(".")[0]
-        r_release = "/data/web_static/releases/"
+        r_release = "/data/web_static/releases"
         try:
             put(archive_path, '/tmp/')
             run('sudo mkdir -p {}{}/'.format(r_release, archive_no_ext))
