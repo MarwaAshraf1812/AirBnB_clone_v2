@@ -19,8 +19,9 @@ def do_pack():
     date = datetime.now().strftime("%Y%m%d%H%M%S")
     archived_path = "versions/web_static_{}.tgz".format(date)
     t_gzip_archive = local("tar -cvzf {} web_static".format(archived_path))
-    file_size = os.path.getsize(archived_path)
-    print(file_size)
+    f_size = os.path.getsize(archived_path)
+    f_str = ' versions/web_static_{}.tgz -> {}Bytes'.format(archived_path,f_size)
+    print(f_str)
     if t_gzip_archive.succeeded:
         return archived_path
     else:
