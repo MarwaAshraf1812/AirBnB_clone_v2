@@ -17,7 +17,7 @@ def do_pack():
 
     local("sudo mkdir -p versions")
     date = datetime.now().strftime("%Y%m%d%H%M%S")
-    archived_path = "veronsis/web_static_{}.tgz".format(date)
+    archived_path = "versions/web_static_{}.tgz".format(date)
     t_gzip_archive = local("tar -cvzf {} web_static".format(archived_path))
     file_size = os.path.getsize(archived_path)
     print(file_size)
