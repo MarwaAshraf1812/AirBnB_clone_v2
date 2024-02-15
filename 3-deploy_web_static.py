@@ -33,7 +33,7 @@ def do_pack():
     else:
         return None
 
-
+@task
 def do_deploy(archive_path):
     """
     deployes web static 1
@@ -64,7 +64,7 @@ def do_deploy(archive_path):
     else:
         return False
 
-
+@task
 def deploy():
     """
     creates and distributes an archive to the web servers
