@@ -27,7 +27,7 @@ def do_pack():
     f_size = os.path.getsize(archived_path)
     f_str = 'web_static packed: versions/web_static_{}.tgz -> {}Bytes'
     file_str = f_str.format(date, f_size)
-    print(f_str)
+    print(file_str)
     if t_gzip_archive.succeeded:
         return archived_path
     else:
@@ -59,8 +59,10 @@ def do_deploy(archive_path):
                 r_release, archive_ext))
             print('New version deployed!')
             return True
-        except:
-            return False
+        except Exception as e:
+                print(f"Error during deployment: {e}")
+                return False
+
     else:
         return False
 
