@@ -33,6 +33,7 @@ def do_pack():
     else:
         return None
 
+
 @task
 def do_deploy(archive_path):
     """
@@ -60,11 +61,12 @@ def do_deploy(archive_path):
             print('New version deployed!')
             return True
         except Exception as e:
-                print(f"Error during deployment: {e}")
-                return False
+            print(f"Error during deployment: {e}")
+            return False
 
     else:
         return False
+
 
 @task
 def deploy():
