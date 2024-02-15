@@ -8,6 +8,7 @@ from fabric.api import *
 from datetime import datetime
 import os
 
+
 @task
 def do_pack():
     """
@@ -20,7 +21,8 @@ def do_pack():
     archived_path = "versions/web_static_{}.tgz".format(date)
     t_gzip_archive = local("tar -cvzf {} web_static".format(archived_path))
     f_size = os.path.getsize(archived_path)
-    f_str = 'web_static packed: versions/web_static_{}.tgz -> {}Bytes'.format(date, f_size)
+    f_str = 'web_static packed: versions/web_static_{}.tgz -> {}Bytes'
+    file_str = f_str.format(date, f_size)
     print(f_str)
     if t_gzip_archive.succeeded:
         return archived_path
