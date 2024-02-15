@@ -43,9 +43,9 @@ echo -e "server {
 
     location /hbnb_static {
         alias /data/web_static/current/;
-        index index.html;
+        index index.html 103-index.html my_index.html;
     }
-}" | sudo tee /etc/nginx/sites-enabled/default
+}" | sudo tee /etc/nginx/sites-available/default > /dev/null
 
 # Create symbolic link to enable the configuration
 sudo ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/ > /dev/null
