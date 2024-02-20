@@ -32,8 +32,8 @@ def P_is_magic(text='is cool'):
     return 'Python ' + text.replace('_', ' ')
 
 
-@app.route("/number/<int:n>", strict_slashes=False)
-def is_a_number(n= None):
+@app.route('/number/<int:n>', strict_slashes=False)
+def is_a_number(n=None):
     """display “n is a number” only if n is an integer"""
     return "{:d} is a number".format(n)
 
