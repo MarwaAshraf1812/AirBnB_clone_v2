@@ -47,6 +47,12 @@ def r_if_number(n=None):
 @app.route('/number_odd_or_even/<int:n>', strict_slashes=False)
 def odd_or_even(n):
     """Render template based on conditional"""
+    """
+    flag = 'odd'
+    if n % 2 == 0:
+        flag = 'even'
+    return render_template('6-number_odd_or_even.html', n=n, state=flag)
+    """
     return render_template('6-number_odd_or_even.html', n=n)
 
 
