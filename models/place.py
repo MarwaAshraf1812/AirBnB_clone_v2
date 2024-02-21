@@ -37,9 +37,9 @@ class Place(BaseModel, Base):
         reviews = relationship("Review",
                                backref="place",
                                cascade="all, delete, delete-orphan")
-        amenities = relationship("Amenity",
-                                 secondary=place_amenity,
-                                 viewonly=False)
+        amenities = relationship('Amenity', secondary='place_amenity',
+                             back_populates='place_amenities', overlaps="amenities")
+
     if os.environ.get('HBNB_TYPE_STORAGE') != "db":
         @property
         def reviews(self):
