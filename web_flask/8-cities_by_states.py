@@ -8,6 +8,12 @@ from models.state import State
 app = Flask(__name__)
 
 
+@app.teardown_appcontext
+def terminate(exc):
+    """close the storage"""
+    storage.close()
+
+
 @app.route('/cities_by_states', strict_slashes=False)
 def cities_by_states():
     """display a HTML page: (inside the tag BODY)"""
@@ -18,12 +24,6 @@ def cities_by_states():
     for s in slist:
         s.cities.sort(key=lambda x: x.name)
     return render_template("8-cities_by_states.html", sorted_states_list=slist)
-
-
-@app.teardown_appcontext
-def terminate(exc):
-    """close the storage"""
-    storage.close()
 
 
 if __name__ == '__main__':
