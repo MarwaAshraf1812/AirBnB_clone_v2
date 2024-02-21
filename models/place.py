@@ -38,7 +38,7 @@ class Place(BaseModel, Base):
                                backref="place",
                                cascade="all, delete, delete-orphan")
         amenities = relationship('Amenity', secondary='place_amenity',
-                             back_populates='place_amenities', overlaps="amenities")
+                             overlaps="place_amenities", viewonly=False)
 
     if os.environ.get('HBNB_TYPE_STORAGE') != "db":
         @property
