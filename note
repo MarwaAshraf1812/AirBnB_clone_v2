@@ -1,0 +1,50 @@
+Fix – MySQL ERROR 1819 (HY000): Your password does not satisfy the current policy requirements
+
+This is a built-in security mechanism 
+that forces the users to provide only the strong passwords 
+based on the current password policy requirements.
+
+
+you need to update the "validate password"
+this is the steps :
+1- SHOW VARIABLES LIKE 'validate_password%';
+ sample output > 
+    +--------------------------------------+--------+
+    | Variable_name                        | Value  |
+    +--------------------------------------+--------+
+    | validate_password.check_user_name    | ON     |
+    | validate_password.dictionary_file    |        |
+    | validate_password.length             | 8      |
+    | validate_password.mixed_case_count   | 1      |
+    | validate_password.number_count       | 1      |
+    | validate_password.policy             | MEDIUM |
+    | validate_password.special_char_count | 1      |
+    +--------------------------------------+--------+
+
+2-SET GLOBAL validate_password.policy = 0;
+or
+SET GLOBAL validate_password.policy=LOW;
+
+add this line to your database 
+here :
+    -- Drop database
+    DROP DATABASE IF EXISTS hbnb_dev_db;
+
+    -- Create database + user if doesn't exist
+    CREATE DATABASE IF NOT EXISTS hbnb_dev_db;
+    CREATE USER IF NOT EXISTS 'hbnb_dev'@'localhost';
+    SET GLOBAL validate_password.policy=LOW;
+    SET PASSWORD FOR 'hbnb_dev'@'localhost' = 'hbnb_dev_pwd';
+    GRANT ALL ON hbnb_dev_db.* TO 'hbnb_dev'@'localhost';
+    GRANT SELECT ON performance_schema.* TO 'hbnb_dev'@'localhost';
+    FLUSH PRIVILEGES;
+
+    USE hbnb_dev_db;
+
+
+finally run your dump file
+cat 7-dump.sql | mysql -uroot -p
+then : 
+echo "quit" | HBNB_MYSQL_USER=hbnb_dev HBNB_MYSQL_PWD=hbnb_dev_pwd HBNB_MYSQL_HOST=localhost HBNB_MYSQL_DB=hbnb_dev_db HBNB_TYPE_STORAGE=db ./console.py
+
+>> to check if all tables are created
